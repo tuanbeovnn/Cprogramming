@@ -1,58 +1,46 @@
-#include <stdio.h>
-#include <string.h>
+#include<stdio.h>
 #define max 100
 
-int string_length(char s[]) {
-   int i=0;
 
-   while(s[i]!='\0')
-      i++;
+void caesar(char *s, int key){
+	/*
+		function to encrypt the given string and key
 
-   return i;	
+		Parameter: char *s - The given string needs to be encryted
+					int key - The given key 
+	*/
+
+	//Initialize the counter variable
+	int i;      // Initalize the temporary variable
+	char ch;    // For loop encrypt single letter in string
+	for(i=0; s[i] != '\0'; i++){
+		ch=s[i];
+		// If letter in English alphabet (either upper and lower )
+		// replace by another letter that is key position down to it.
+		if(ch >= 'a' && ch<='z'){
+			ch=ch+key;
+			if(ch > 'z'){
+				ch= ch-'z'+'a'-1;
+			}
+			s[i]=ch;
+		}
+		else if (ch >= 'A' && ch <= 'Z'){
+			ch= ch+key;
+			if (ch > 'Z'){
+				ch=ch-'Z'+'A'-1;
+			}
+			s[i]=ch;
+		}
+	}
 }
-
-void string_reverse(char st[]) {
-   int i,j,len;
-   char ch;
-
-   j = len = string_length(st) - 1;
-   i = 0;
-
-   while(i < j) {
-      ch = st[j];
-      st[j] = st[i];
-      st[i] = ch;
-      i++;
-      j--;
-   }
-}
-
-int main (void) {
-    
-    char line[max];
-    printf("Enter the sentence...\n");
-    gets(line);
-    char reverse[max] = "", temp[max];
-    int i, j, n;
-
-
-   n = string_length(line);
-
-   for(i = n-1; i >= 0; --i) {
-
-      for(j = 0; i >= 0 && line[i] != ' '; --i,++j)
-         temp[j] = line[i];
-
-      temp[j] = '\0';
-
-      string_reverse(temp);
-      
-      strcat(reverse,temp);
-      strcat(reverse," ");
-   }
-
-   printf("String is :\n %s", line);
-   printf("\nNow reversing the sentence...:\n %s",reverse);
-
-   return 0;
+int main(){
+	char sentence[max];
+	int key;
+	printf("Enter a sentence to encrypt: ");
+	gets(sentence);
+	printf("Enter key: ");
+	scanf("%d", &key);
+	caesar(sentence, key);
+	printf("Encryptted sentence: %s\n", sentence);
+	return 0;
 }
